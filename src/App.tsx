@@ -36,6 +36,9 @@ function reducer(state, action) {
     case "start":
       return {
         ...state,
+        index: 0,
+        answer: null,
+        points: 0,
         status: "active",
       };
     case "newAnswer":
@@ -69,10 +72,8 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [{ questions, status, index, answer, points }, dispatch] = useReducer(
-    reducer,
-    intialState
-  );
+  const [{ questions, status, index, answer, points, highscore }, dispatch] =
+    useReducer(reducer, intialState);
 
   const numQuestions = questions.length;
   const maxPoints = questions.reduce((prev, cur) => prev + cur.points, 0);
@@ -121,6 +122,7 @@ export default function App() {
             points={points}
             maxPoints={maxPoints}
             highscore={highscore}
+            dispatch={dispatch}
           />
         )}
       </Main>
