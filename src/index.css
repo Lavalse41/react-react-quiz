@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Codystar&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap");
+
 :root {
   --color-darkest: #343a40;
   --color-dark: #495057;
@@ -7,8 +10,6 @@
   --color-theme: #1098ad;
   --color-accent: #ffa94d;
 }
-
-@import url("https://fonts.googleapis.com/css2?family=Codystar&display=swap");
 
 * {
   margin: 0;
@@ -27,6 +28,10 @@ body {
   color: var(--color-light);
   background-color: var(--color-darkest);
   padding: 3.2rem;
+}
+
+.emoji {
+  font-family: "Noto Color Emoji";
 }
 
 .app {
