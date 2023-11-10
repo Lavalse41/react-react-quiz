@@ -1,23 +1,12 @@
-import { PropType } from "../interface/PropType";
 import Options from "./Options";
+import { useQuiz } from "../context/QuizContext";
 
-function Question({ question, dispatch, answer }: PropType) {
+function Question() {
+  const { question } = useQuiz();
   return (
     <div>
       <h4>{question.question}</h4>
-      <Options
-        question={question}
-        dispatch={dispatch}
-        answer={answer}
-        numQuestions={0}
-        questions={[]}
-        status={""}
-        index={0}
-        points={0}
-        highscore={0}
-        secondsRemaining={0}
-        maxPoints={0}
-      />
+      <Options />
     </div>
   );
 }

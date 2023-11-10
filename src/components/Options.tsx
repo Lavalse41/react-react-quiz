@@ -1,6 +1,7 @@
-import { PropType } from "../interface/PropType";
+import { useQuiz } from "../context/QuizContext";
 
-function Options({ question, dispatch, answer }: PropType) {
+function Options() {
+  const { question, dispatch, answer } = useQuiz();
   const hasAnswered = answer !== null;
   return (
     <div className="options">

@@ -1,6 +1,9 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
+import { PropType, ActionType } from "../interface/PropType";
+import { QuestionType, StateType } from "../interface/StateType";
+import { ChildrenType } from "../interface/ChildrenType";
 
-const QuizContext = createContext();
+const QuizContext = createContext<PropType | undefined>(undefined);
 
 const SECS_PER_QUESTION = 30;
 
@@ -16,7 +19,7 @@ const initialState = {
   secondsRemaining: null,
 };
 
-function reducer(state, action) {
+function reducer(state: StateType, action: ActionType) {
   switch (action.type) {
     case "dataReceived":
       return {
@@ -36,7 +39,7 @@ function reducer(state, action) {
         secondsRemaining: state.questions.length * SECS_PER_QUESTION,
       };
     case "newAnswer":
-      const question = state.questions.at(state.index);
+      const question = state.questions[state.index];
 
       return {
         ...state,
@@ -70,14 +73,26 @@ function reducer(state, action) {
   }
 }
 
-function QuizProvider({ children }) {
+function QuizProvider({ children }: ChildrenType) {
   const [
-    { questions, status, index, answer, points, highscore, secondsRemaining },
+    {
+      questions,
+      status,
+      index,
+      answer,
+      points,
+      highscore,
+      secondsRemaining,
+      question,
+    },
     dispatch,
   ] = useReducer(reducer, initialState);
 
   const numQuestions = questions.length;
-  const maxPoints = questions.reduce((prev, cur) => prev + cur.points, 0);
+  const maxPoints = questions.reduce(
+    (prev: number, cur: QuestionType) => prev + cur.points,
+    0
+  );
 
   useEffect(function () {
     fetch("http://localhost:9000/questions")
@@ -86,23 +101,22 @@ function QuizProvider({ children }) {
       .catch((err) => dispatch({ type: "dataFailed" }));
   }, []);
 
+  const context: PropType = {
+    questions,
+    status,
+    index,
+    answer,
+    points,
+    highscore,
+    secondsRemaining,
+    numQuestions,
+    maxPoints,
+    dispatch,
+    question,
+  };
+
   return (
-    <QuizContext.Provider
-      value={{
-        questions,
-        status,
-        index,
-        answer,
-        points,
-        highscore,
-        secondsRemaining,
-        numQuestions,
-        maxPoints,
-        dispatch,
-      }}
-    >
-      {children}
-    </QuizContext.Provider>
+    <QuizContext.Provider value={context}>{children}</QuizContext.Provider>
   );
 }
 

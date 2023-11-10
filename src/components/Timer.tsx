@@ -1,7 +1,9 @@
 import { useEffect } from "react";
-import { PropType } from "../interface/PropType";
+import { useQuiz } from "../context/QuizContext";
 
-function Timer({ dispatch, secondsRemaining }: PropType) {
+function Timer() {
+  const { dispatch, secondsRemaining } = useQuiz();
+
   const mins = Math.floor(secondsRemaining / 60);
   const seconds = secondsRemaining % 60;
 
