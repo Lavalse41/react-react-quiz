@@ -1,4 +1,6 @@
-function FinishScreen({ maxPoints, points, highscore, dispatch }) {
+import { PropType } from "../interface/PropType";
+
+function FinishScreen({ maxPoints, points, highscore, dispatch }: PropType) {
   const percentage = (points / maxPoints) * 100;
 
   let emoji;

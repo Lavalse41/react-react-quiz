@@ -1,4 +1,6 @@
-function NextButton({ answer, dispatch, numQuestions, index }) {
+import { PropType } from "../interface/PropType";
+
+function NextButton({ answer, dispatch, numQuestions, index }: PropType) {
   if (answer === null) return null;
 
   if (index < numQuestions - 1) {

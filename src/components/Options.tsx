@@ -1,4 +1,6 @@
-function Options({ question, dispatch, answer }) {
+import { PropType } from "../interface/PropType";
+
+function Options({ question, dispatch, answer }: PropType) {
   const hasAnswered = answer !== null;
   return (
     <div className="options">

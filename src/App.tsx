@@ -10,10 +10,13 @@ import NextButton from "./components/NextButton";
 import Progress from "./components/Progress";
 import FinishScreen from "./components/FinishScreen";
 import Timer from "./components/Timer";
+import { StateType, QuestionType } from "./interface/StateType";
+import { ActionType } from "./interface/PropType";
+import { createUnknownActionError } from "./interface/ErrorType";
 
 const SECS_PER_QUESTION = 30;
 
-const initialState = {
+const initialState: StateType = {
   questions: [],
   // 'loading', 'error', 'ready', 'active', 'finished'
   status: "loading",
@@ -21,10 +24,11 @@ const initialState = {
   answer: null,
   points: 0,
   highscore: 0,
-  secondsRemaining: null,
+  secondsRemaining: 0,
+  maxPoints: 0,
 };
 
-function reducer(state, action) {
+function reducer(state: StateType, action: ActionType) {
   switch (action.type) {
     case "dataReceived":
       return {
@@ -43,9 +47,10 @@ function reducer(state, action) {
         status: "active",
         secondsRemaining: state.questions.length * SECS_PER_QUESTION,
       };
-    case "newAnswer":
+    case "newAnswer": {
       //find which question with at();
-      const question = state.questions.at(state.index);
+      const question: QuestionType = state.questions.at(state.index);
+
       return {
         ...state,
         answer: action.payload,
@@ -54,6 +59,7 @@ function reducer(state, action) {
             ? state.points + question.points
             : state.points,
       };
+    }
     case "nextQuestion":
       return {
         ...state,
@@ -81,7 +87,7 @@ function reducer(state, action) {
       };
 
     default:
-      throw new Error("Action unknown");
+      throw createUnknownActionError();
   }
 }
 
@@ -92,7 +98,11 @@ export default function App() {
   ] = useReducer(reducer, initialState);
 
   const numQuestions = questions.length;
-  const maxPoints = questions.reduce((prev, cur) => prev + cur.points, 0);
+
+  const maxPoints = questions.reduce(
+    (prev: number, cur: QuestionType) => prev + cur.points,
+    0
+  );
 
   useEffect(function () {
     fetch("http://localhost:3000/questions")

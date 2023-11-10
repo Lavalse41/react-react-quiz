@@ -1,4 +1,12 @@
-function Progress({ index, numQuestions, points, maxPoints, answer }) {
+import { PropType } from "../interface/PropType";
+
+function Progress({
+  index,
+  numQuestions,
+  points,
+  maxPoints,
+  answer,
+}: PropType) {
   return (
     <header className="progress">
       <progress

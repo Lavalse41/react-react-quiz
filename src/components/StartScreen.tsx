@@ -1,6 +1,8 @@
 // import { useQuiz } from "../contexts/QuizContext";
 
-function StartScreen({ numQuestions, dispatch }) {
+import { PropType } from "../interface/PropType";
+
+function StartScreen({ numQuestions, dispatch }: PropType) {
   //   const { numQuestions, dispatch } = useQuiz();
 
   return (
